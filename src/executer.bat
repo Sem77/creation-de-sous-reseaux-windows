@@ -1,0 +1,1 @@
+java --module-path "..\javafx-sdk-11.0.2\lib" --add-modules=javafx.fxml,javafx.controls App
