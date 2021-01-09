@@ -13,7 +13,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("com/sem/controller/Ui.fxml"));
 		
-		stage.setTitle("Découpage Sous Réseaux");
+		stage.setTitle("Decoupage Sous Reseaux");
 		stage.setResizable(false); 
 		
 		Scene scene = new Scene(root);
