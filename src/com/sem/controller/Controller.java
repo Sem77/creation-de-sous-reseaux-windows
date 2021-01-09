@@ -109,23 +109,30 @@ public class Controller implements Initializable{
     protected void decoupage() throws ValeurHorsDePorteeException{
         zoneTexte.clear();
 
-        AdresseIp ip = new AdresseIp(Integer.parseInt(premierOctetIp.getText()), Integer.parseInt(deuxiemeOctetIp.getText()), Integer.parseInt(troisiemeOctetIp.getText()), Integer.parseInt(quatriemeOctetIp.getText()));
-        Masque masque = new Masque(Integer.parseInt(premierOctetMasque.getText()), Integer.parseInt(deuxiemeOctetMasque.getText()), Integer.parseInt(troisiemeOctetMasque.getText()), Integer.parseInt(quatriemeOctetMasque.getText()));
-        
-        Reseau monReseau = new Reseau(ip, masque);
-        int nbDeSR = Integer.parseInt(nbSR.getText());
+        try{
+            AdresseIp ip = new AdresseIp(Integer.parseInt(premierOctetIp.getText()), Integer.parseInt(deuxiemeOctetIp.getText()), Integer.parseInt(troisiemeOctetIp.getText()), Integer.parseInt(quatriemeOctetIp.getText()));
+            Masque masque = new Masque(Integer.parseInt(premierOctetMasque.getText()), Integer.parseInt(deuxiemeOctetMasque.getText()), Integer.parseInt(troisiemeOctetMasque.getText()), Integer.parseInt(quatriemeOctetMasque.getText()));
+            Reseau monReseau = new Reseau(ip, masque);
+            int nbDeSR = Integer.parseInt(nbSR.getText());
 
-        if(monReseau.decouperEnSR(nbDeSR) == true){
-            for (int i = 0; i < nbDeSR; i++) {
-                zoneTexte.appendText(monReseau.tabSR[i].toString() + "\n");
-                zoneTexte.appendText("Broadcast: " + monReseau.tabSR[i].adresseDiffusion() + "\n");
-                zoneTexte.appendText("Nombre d'hotes: " + String.valueOf(monReseau.tabSR[i].nbHotesDispo()) + "\n");
-                zoneTexte.appendText("-------------------------------------------\n");
+            if(monReseau.decouperEnSR(nbDeSR) == true){
+                for (int i = 0; i < nbDeSR; i++) {
+                    zoneTexte.appendText(monReseau.tabSR[i].toString() + "\n");
+                    zoneTexte.appendText("Broadcast: " + monReseau.tabSR[i].adresseDiffusion() + "\n");
+                    zoneTexte.appendText("Nombre d'hotes: " + String.valueOf(monReseau.tabSR[i].nbHotesDispo()) + "\n");
+                    zoneTexte.appendText("-------------------------------------------\n");
+                }
             }
-        }
-        else{
+            else{
+                zoneTexte.clear();
+                zoneTexte.appendText("Nombre de sous réseau trop grand");
+            }
+        }catch(ValeurHorsDePorteeException e){
             zoneTexte.clear();
-            zoneTexte.appendText("Nombre de sous réseau trop grand");
+            zoneTexte.setText("La valeur d'un octet doit être entre 0 et 255");
+        }catch(NumberFormatException e){
+            zoneTexte.clear();
+            zoneTexte.setText("Attention champ vide");
         }
     }
 
